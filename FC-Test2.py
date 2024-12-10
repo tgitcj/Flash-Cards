@@ -91,7 +91,7 @@ def test(stack):
 
     # Initial test loop
     for question in questions:
-        meaning, _ = stack[question]
+        meaning, definition = stack[question]
         print(question)
         user_answer = input("Your answer (or type 'exit' to quit): ").strip()
 
@@ -102,20 +102,22 @@ def test(stack):
 
         if user_answer.strip().lower() == meaning.lower():
             print("Correct!")
+            print(f"Explanation: {definition}")
             score += 1
         elif fuzz.ratio(user_answer.lower(), meaning.lower()) >= 80:
             print("Correct! (Close enough)")
+            print(f"Explanation: {definition}")
             score += 1
         else:
             missed_questions.append(question)
             print("Incorrect.")
 
     # Summary of results
-    print(f"You got {score} out of {total_questions} correct.")
+    print(f"\nYou got {score} out of {total_questions} correct.")
 
     # Retest missed questions
     if missed_questions:
-        print("Let's try the missed questions again. Answers will be shown after incorrect attempts.")
+        print("\nLet's try the missed questions again. Answers will be shown after incorrect attempts.\n")
 
         while missed_questions:
             question = random.choice(missed_questions)
@@ -132,8 +134,10 @@ def test(stack):
 
             if user_answer.strip().lower() == meaning.lower():
                 print("Correct!")
+                print(f"Explanation: {definition}")
             elif fuzz.ratio(user_answer.lower(), meaning.lower()) >= 80:
                 print("Correct! (Close enough)")
+                print(f"Explanation: {definition}")
             else:
                 print(f"Incorrect. The correct answer is: {meaning}")
                 print(f"Explanation: {definition}")
